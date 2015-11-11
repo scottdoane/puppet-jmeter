@@ -44,6 +44,7 @@ class jmeter (
 
   if $plugins_install == true {
     jmeter::plugins_install { $plugins_set:
+      install_path    => $install_path,
       plugins_version => $plugins_version,
       require         => [Package['wget'], Package['unzip'], Exec['install-jmeter']],
     }
