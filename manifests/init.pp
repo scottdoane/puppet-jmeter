@@ -34,6 +34,7 @@ class jmeter (
 
   file { "$bin_path/jmeter":
     ensure => link,
+    target => "$install_path/jmeter/bin/jmeter",
     require => Exec['install-jmeter'],
   }
 
