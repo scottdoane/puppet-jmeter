@@ -24,12 +24,12 @@ class jmeter (
   }
 
   exec { 'download-jmeter':
-    command => "wget -P /root http://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${jmeter_version}.tgz",
-    creates => "/root/apache-jmeter-${jmeter_version}.tgz"
+    command => "wget -P /tmp http://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${jmeter_version}.tgz",
+    creates => "/tmp/apache-jmeter-${jmeter_version}.tgz"
   }
 
   exec { 'install-jmeter':
-    command => "tar xzf /root/apache-jmeter-${jmeter_version}.tgz && mv apache-jmeter-${jmeter_version} jmeter",
+    command => "tar xzf /tmp/apache-jmeter-${jmeter_version}.tgz && mv apache-jmeter-${jmeter_version} jmeter",
     cwd     => '/usr/share',
     creates => '/usr/share/jmeter',
     require => Exec['download-jmeter'],
