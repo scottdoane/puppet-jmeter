@@ -7,8 +7,8 @@
 #   class { 'jmeter::server': }
 #
 class jmeter::server (
-  $server_ip    = $jmeter::params::::server_ip,
-  $server_port  = $jmeter::params::server_port,
+  $server_ip    = $::jmeter::params::server_ip,
+  $server_port  = $::jmeter::params::server_port,
 ) inherits jmeter::params {
   include jmeter
 
