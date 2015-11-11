@@ -33,8 +33,8 @@ class jmeter (
   }
 
   file { "$bin_path/jmeter":
-    ensure => link
-    require => Exec['install-jmeter']
+    ensure => link,
+    require => Exec['install-jmeter'],
   }
 
   if $plugins_install == true {
