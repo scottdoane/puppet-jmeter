@@ -38,11 +38,4 @@ class jmeter::server (
     require   => File['/etc/init.d/jmeter'],
     subscribe => [File['/etc/init.d/jmeter'], Exec['install-jmeter-plugins']],
   }
-
-  @@jmeter_server { $::fqdn:
-    ensure      => present,
-    alias       => $::hostname,
-    server_ip   => $server_ip,
-    server_port => $server_port,
-  }
 }

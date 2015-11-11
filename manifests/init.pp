@@ -13,6 +13,7 @@ class jmeter (
   $plugins_install = $::jmeter::params::plugins_install,
   $plugins_version = $::jmeter::params::plugins_version,
   $plugins_set     = $::jmeter::params::plugins_set,
+  $user_config     = $::jmeter::params::user_config,
 ) inherits jmeter::params {
 
   Exec { path => '/bin:/usr/bin:/usr/sbin' }
@@ -36,6 +37,17 @@ class jmeter (
     ensure => link,
     target => "$install_path/jmeter/bin/jmeter",
     require => Exec['install-jmeter'],
+  }
+
+  if $user_config {
+    file { "$bin_path/jmeter/bin/user.properties":
+      ensure => file,
+      content => template('jmeter/user.properties.erb'),
+      owner   => root,
+      group   => root,
+      mode    => '0644',
+      require => Exec['install-jmeter'],
+    }
   }
 
   if $plugins_install == true {
