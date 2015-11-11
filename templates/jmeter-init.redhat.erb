@@ -128,11 +128,14 @@ case "$1" in
         stop
         start
         ;;
+  kill)
+		    terminate
+	      ;;
   condrestart)
         [ -e /var/lock/subsys/$NAME ] && restart
         ;;
   *)
-        echo "Usage: $SCRIPTNAME {start|stop|status|restart|force-reload}" >&2
+        echo "Usage: $SCRIPTNAME {start|stop|status|restart|force-reload|kill}" >&2
         exit 3
         ;;
 esac
