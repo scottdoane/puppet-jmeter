@@ -17,13 +17,8 @@ class jmeter (
 
   Exec { path => '/bin:/usr/bin:/usr/sbin' }
 
-  package { 'unzip':
-    ensure => present,
-  }
-
-  package { 'wget':
-    ensure => present,
-  }
+  $packages = [ 'unzip', 'wget' ]
+  package { $packages: ensure => present }
 
   exec { 'download-jmeter':
     command => "wget -P /tmp http://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${version}.tgz",
