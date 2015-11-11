@@ -7,6 +7,8 @@
 #   class { 'jmeter': }
 #
 class jmeter (
+  $jmeter_install_path    = $::jmeter::params::install_path,
+  $jmeter_bin_path        = $::jmeter::params::bin_path,
   $jmeter_version         = '2.13',
   $jmeter_plugins_install = false,
   $jmeter_plugins_version = '1.2.1',
@@ -30,9 +32,14 @@ class jmeter (
 
   exec { 'install-jmeter':
     command => "tar xzf /tmp/apache-jmeter-${jmeter_version}.tgz && mv apache-jmeter-${jmeter_version} jmeter",
-    cwd     => '/usr/share',
-    creates => '/usr/share/jmeter',
+    cwd     => $jmeter_install_path,
+    creates => "$jmeter_install_path/jmeter",
     require => Exec['download-jmeter'],
+  }
+
+  file { "$jmeter_bin_path/jmeter":
+    ensure => link
+    require => Exec['install-jmeter']
   }
 
   if $jmeter_plugins_install == true {
