@@ -19,7 +19,7 @@ export JAVA_HOME=/etc/alternatives/jre
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 DESC="Apache JMeter Remote Server"
 NAME=jmeter
-JMETER_PATH=<%= installer_path -%>/jmeter
+JMETER_PATH=<%= @installer_path -%>/jmeter
 # Change this to your IP
 RMI_HOST_DEF="-Djava.rmi.server.hostname=<%= @server_ip %>"
 SERVER_PORT=<%= @server_port %>
