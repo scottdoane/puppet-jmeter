@@ -7,7 +7,7 @@
 #   class { 'jmeter': }
 #
 class jmeter (
-  $install_path    = $::jmeter::params::install_path,
+  $installed_path  = $::jmeter::params::installed_path,
   $bin_path        = $::jmeter::params::bin_path,
   $version         = $::jmeter::params::version,
   $plugins_install = $::jmeter::params::plugins_install,
@@ -29,18 +29,18 @@ class jmeter (
 
   exec { 'install-jmeter':
     command => "tar xzf /tmp/apache-jmeter-${version}.tgz && mv apache-jmeter-${version} jmeter",
-    cwd     => $install_path,
-    creates => "$install_path/jmeter",
+    cwd     => $installer_path,
+    creates => "$installer_path/jmeter",
     require => Exec['download-jmeter'],
   }
 
   file { "$bin_path/jmeter":
     ensure => link,
-    target => "$install_path/jmeter/bin/jmeter",
+    target => "$installer_path/jmeter/bin/jmeter",
     require => Exec['install-jmeter'],
   }
 
-  file { "$install_path/jmeter/bin/user.properties":
+  file { "$installer_path/jmeter/bin/user.properties":
     ensure => file,
     content => template('jmeter/user.properties.erb'),
     owner   => root,
@@ -51,7 +51,7 @@ class jmeter (
 
   if $plugins_install == true {
     jmeter::plugins_install { $plugins_set:
-      install_path    => $install_path,
+      installer_path    => $installer_path,
       plugins_version => $plugins_version,
       require         => [Package['wget'], Package['unzip'], Exec['install-jmeter']],
     }
