@@ -7,7 +7,7 @@
 #   class { 'jmeter': }
 #
 class jmeter (
-  $installed_path  = $::jmeter::params::installed_path,
+  $installer_path  = $::jmeter::params::installer_path,
   $bin_path        = $::jmeter::params::bin_path,
   $version         = $::jmeter::params::version,
   $plugins_install = $::jmeter::params::plugins_install,

@@ -2,7 +2,7 @@
 #
 class jmeter::params {
   if $::osfamily == 'RedHat' {
-    $installed_path  = '/opt'
+    $installer_path  = '/opt'
     $bin_path        = '/usr/local/bin'
     $version         = '2.13'
     $plugins_install = true
