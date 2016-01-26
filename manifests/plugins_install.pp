@@ -1,4 +1,5 @@
 define jmeter::plugins_install (
+  $archive_path,
   $installer_path,
   $plugins_version,
   $plugins_set = $title,
@@ -7,10 +8,18 @@ define jmeter::plugins_install (
   $base_download_url = 'http://jmeter-plugins.org/downloads/file/'
   $plugins_file_base = "JMeterPlugins-${plugins_set}-${plugins_version}"
 
-  exec { "download-jmeter-plugins-${plugins_set}":
-    command => "wget -P /tmp ${base_download_url}/${plugins_file_base}.zip",
-    creates => "/tmp/${plugins_file_base}.zip"
+  if $archive_path == '' {
+    exec { "download-jmeter-plugins-${plugins_set}":
+      command => "wget -P /tmp ${base_download_url}/${plugins_file_base}.zip",
+      creates => "/tmp/${plugins_file_base}.zip"
+    }
+  } else {
+    exec { "download-jmeter-plugins-${plugins_set}":
+      command => "cp ${archive_path}/${plugins_file_base}.zip /tmp/${plugins_file_base}.zip",
+      creates => "/tmp/${plugins_file_base}.zip"
+    }
   }
+
 
   exec { "install-jmeter-plugins-${plugins_set}":
     command => "unzip -q -o -d JMeterPlugins-${plugins_set} ${plugins_file_base}.zip && cp -r JMeterPlugins-${plugins_set}/lib/* $installer_path/jmeter/lib/",
